@@ -931,7 +931,9 @@
                     {{-- card --}}
                     <div class="border-b border-gray-500 pb-3 mb-4">
                         {{-- nama produk --}}
-                        <p>{{ $product->name }} - Rp {{ $product->price }}</p>
+                        <a href="/products/{{ $product->id }}">
+                            {{ $product->name }} - Rp {{ $product->price }}
+                        </a>
                         <small>
                             {{ $product->description }}
                         </small>

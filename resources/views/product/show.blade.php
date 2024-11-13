@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tambah Produk</title>
+    <title>{{ $product->name }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -912,33 +912,37 @@
         <section style="width: 35%" class="bg-white p-8 rounded mx-auto">
 
             <div class="text-center mb-4">
-                <p class="font-semibold text-gray-700">Tambah Produk</p>
-                <small class="text-gray-500">Gunakan form ini untuk menambahkan produk baru ke dalam database</small>
+                <p class="font-semibold text-gray-700">Detail Produk</p>
+                <small class="text-gray-500">Gunakan form ini untuk mengubah produk anda ke dalam database</small>
             </div>
 
             {{-- form untuk tambah produk --}}
-            <form action="/products" method="POST">
+            <form action="/products/{{ $product->id }}" method="POST">
                 @csrf
+                @method('PUT')
 
                 {{-- name --}}
                 <div class="mb-4">
                     <label class="text-sm text-gray-500">Nama Produk</label>
-                    <input class="bg-gray-100 w-full p-4" type="text" name="name" placeholder="Masukkan nama produk">
+                    <input value="{{ $product->name }}" class="bg-gray-100 w-full p-4" type="text" name="name" placeholder="Masukkan nama produk">
                 </div>
 
                 {{-- price --}}
                 <div class="mb-4">
                     <label class="text-sm text-gray-500">Harga Produk</label>
-                    <input class="bg-gray-100 w-full p-4" type="text" name="price" placeholder="Masukkan harga produk">
+                    <input value="{{ $product->price }}" class="bg-gray-100 w-full p-4" type="text" name="price" placeholder="Masukkan harga produk">
                 </div>
 
                 {{-- description --}}
                 <div>
                     <label class="text-sm text-gray-500">Deskripsi Produk</label>
-                    <textarea class="bg-gray-100 w-full p-4" name="description" placeholder="Masukkan deskripsi produk"></textarea>
+                    <textarea class="bg-gray-100 w-full p-4"
+                    name="description" placeholder="Masukkan deskripsi produk">
+                        {{ $product->description }}
+                    </textarea>
                 </div>
 
-                <button type="submit" class="bg-blue-600 w-full p-3 text-gray-200">Simpan Produk</button>
+                <button type="submit" class="bg-blue-600 w-full p-3 text-gray-200">Perbarui Produk</button>
             </form>
         </section>
 

@@ -36,7 +36,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // membuat produk baru
+        Product::create($request->all());
+
+        // redirect user ke halaman /products
+        return redirect()->route("products.index");
+
     }
 
     /**
@@ -44,7 +49,12 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // mengambil data produk menggunakan id
+        $product = Product::findOrFail($id);
+
+        return view("product.show", [
+            "product" => $product
+        ]);
     }
 
     /**
@@ -52,7 +62,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        //PUT
     }
 
     /**
@@ -60,7 +70,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // apakah produk nya itu ada?
+        $product = Product::findOrFail($id);
+
+        // mengubah data produk ke database
+        $product->update($request->all());
+
+        // redirect user ke halaman /products
+        return redirect()->route("products.index");
     }
 
     /**
