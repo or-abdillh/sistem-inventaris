@@ -916,7 +916,7 @@
                 <small class="text-gray-500">Gunakan form ini untuk mengubah produk anda ke dalam database</small>
             </div>
 
-            {{-- form untuk tambah produk --}}
+            {{-- form untuk ubah produk --}}
             <form action="/products/{{ $product->id }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -934,19 +934,65 @@
                 </div>
 
                 {{-- description --}}
-                <div>
+                <div class="mb-3">
                     <label class="text-sm text-gray-500">Deskripsi Produk</label>
-                    <textarea class="bg-gray-100 w-full p-4"
-                    name="description" placeholder="Masukkan deskripsi produk">
-                        {{ $product->description }}
-                    </textarea>
+                    <textarea class="bg-gray-100 w-full p-4 text-left"
+                    name="description" placeholder="Masukkan deskripsi produk">{{ $product->description }}</textarea>
                 </div>
 
-                <button type="submit" class="bg-blue-600 w-full p-3 text-gray-200">Perbarui Produk</button>
+                <div class="flex justify-between gap-3">
+                    {{-- save  --}}
+                    <button type="submit" class="bg-blue-600 w-9/12 p-3 text-gray-200">
+                        Perbarui Produk
+                    </button>
+
+                    {{-- delete button --}}
+                    <button id="button-delete" type="button" class="bg-red-600 p-3 w-3/12 text-gray-200">
+                        Hapus
+                    </button>
+                </div>
+            </form>
+
+            {{-- form untuk delete produk --}}
+            <form id="form-delete-product"
+                action="/products/{{ $product->id }}"
+                method="POST">
+                @csrf
+                @method('DELETE')
+
+                {{-- product id --}}
+                <input type="hidden" name="id" value="{{ $product->id }}">
             </form>
         </section>
-
     </main>
+
+    <script>
+
+        // javascript is here
+        window.addEventListener("DOMContentLoaded", () => {
+
+            // mengambil button delete
+            const buttonDelete = document.getElementById("button-delete")
+
+            // mengambil form delete product
+            const formDeleteProduct = document.getElementById("form-delete-product")
+
+            // ketika user nge klik button delete
+            buttonDelete.addEventListener("click", () => {
+
+                // minta konfirmasi ke user melalui prompt
+                const isDelete = confirm("Apakah anda yakin ingin menghapus produk ini?")
+
+                // ketika user mengkonfirmasi
+                if (isDelete) {
+
+                    // submit form delete product
+                    formDeleteProduct.submit()
+                }
+            })
+        })
+
+    </script>
 
 </body>
 </html>

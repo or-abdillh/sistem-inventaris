@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class ProductController extends Controller
 {
@@ -15,6 +17,8 @@ class ProductController extends Controller
         //
         // mengambil data produk
         $products = Product::all();
+
+        // Alert::success('Hallo', 'Halo ini adalah alert');
 
         // menampilkan view product/index
         return view("product/index", [
@@ -37,7 +41,10 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // membuat produk baru
-        Product::create($request->all());
+        $product = Product::create($request->all());
+
+
+        Alert::success('Berhasil', $product->name . ' berhasil ditambahkan');
 
         // redirect user ke halaman /products
         return redirect()->route("products.index");
@@ -76,6 +83,7 @@ class ProductController extends Controller
         // mengubah data produk ke database
         $product->update($request->all());
 
+
         // redirect user ke halaman /products
         return redirect()->route("products.index");
     }
@@ -85,6 +93,14 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // apakah produk nya itu ada?
+        $product = Product::findOrFail($id);
+
+        // menghapus produk dari database
+        $product->delete();
+
+
+        // redirect user ke halaman /products
+        return redirect()->route("products.index");
     }
 }

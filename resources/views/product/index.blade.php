@@ -924,19 +924,29 @@
         </div>
 
         {{-- daftar produk --}}
-        <section class="text-left mt-12 ">
+        <section class="text-left mt-12 flex justify-between flex-wrap">
             {{-- directives --}}
             @if (count($products) > 0)
                 @foreach ($products as $product)
                     {{-- card --}}
-                    <div class="border-b border-gray-500 pb-3 mb-4">
+                    <div class="border-b border-gray-500 p-3 mb-4 w-4/12">
                         {{-- nama produk --}}
-                        <a href="/products/{{ $product->id }}">
+                        <a href="/products/{{ $product->id }}" class="text-blue-600 underline">
                             {{ $product->name }} - Rp {{ $product->price }}
                         </a>
-                        <small>
-                            {{ $product->description }}
-                        </small>
+
+                        {{-- last updated --}}
+                        <div>
+                            <small>Terakhir diperbarui</small>
+                            <p>{{ $product->updated_at->diffForHumans() }}</p>
+                        </div>
+
+                        <div class="mt-3">
+                            <small>Deskripsi</small>
+                            <p>
+                                {{ $product->description }}
+                            </p>
+                        </div>
                     </div>
                 @endforeach
             @else
@@ -950,6 +960,8 @@
         </section>
 
     </main>
+    
+    @include('sweetalert::alert')
 
 </body>
 
