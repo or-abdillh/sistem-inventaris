@@ -41,7 +41,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // membuat produk baru
-        $product = Product::create($request->all());
+       $validation = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
+        $product = Product::create($validation);
 
 
         Alert::success('Berhasil', $product->name . ' berhasil ditambahkan');
@@ -80,8 +85,13 @@ class ProductController extends Controller
         // apakah produk nya itu ada?
         $product = Product::findOrFail($id);
 
+        $validation = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+        ]);
         // mengubah data produk ke database
-        $product->update($request->all());
+        $product->update($validation);
 
 
         // redirect user ke halaman /products
